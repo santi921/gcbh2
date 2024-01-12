@@ -120,14 +120,14 @@ def main():
         # open optimized.traj and opt.traj in each subfolder
         opt_traj = os.path.join(subfolder, "opt.traj")  # trajectory
         optimized_traj = os.path.join(subfolder, "optimized.traj")  # final
-        lammps_traj = os.path.join(subfolder, "md.lammpstrj")
-        lammps_log = os.path.join(subfolder, "log.lammps")
+        #lammps_traj = os.path.join(subfolder, "md.lammpstrj")
+        #lammps_log = os.path.join(subfolder, "log.lammps")
 
         # check that all files exist in subfolder
         if (
             os.path.exists(opt_traj)
-            and os.path.exists(lammps_traj)
-            and os.path.exists(lammps_log)
+            #and os.path.exists(lammps_traj)
+            #and os.path.exists(lammps_log)
             and os.path.exists(optimized_traj)
         ):
             # read in the optimized.traj
@@ -153,7 +153,7 @@ def main():
             e_pot = np.array(e_pot)
 
             # get energy method 2
-            e_pot = get_e_from_lammps_log(lammps_log)
+            #e_pot = get_e_from_lammps_log(lammps_log)
 
             energy_list.append(e_pot)
             # print("num energies: {}".format(len(e_pot)))
@@ -213,14 +213,14 @@ def main():
             # open optimized.traj and opt.traj in each subfolder
             opt_traj = os.path.join(subfolder, "opt.traj")  # trajectory
             optimized_traj = os.path.join(subfolder, "optimized.traj")  # final
-            lammps_traj = os.path.join(subfolder, "md.lammpstrj")
-            lammps_log = os.path.join(subfolder, "log.lammps")
+            #lammps_traj = os.path.join(subfolder, "md.lammpstrj")
+            #lammps_log = os.path.join(subfolder, "log.lammps")
 
             # check that all files exist in subfolder
             if (
                 os.path.exists(opt_traj)
-                and os.path.exists(lammps_traj)
-                and os.path.exists(lammps_log)
+                #and os.path.exists(lammps_traj)
+                #and os.path.exists(lammps_log)
                 and os.path.exists(optimized_traj)
             ):
                 atoms_opt = read(opt_traj, index="-1")

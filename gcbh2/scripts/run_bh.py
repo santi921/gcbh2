@@ -5,8 +5,7 @@
 ##########################################################################################
 # generalizations to the code such as general lammmps input file, etc. to come or whatever
 
-import glob, os, sys, json, argparse
-import itertools
+import glob, json, argparse
 import numpy as np
 from ase.io import read
 from gcbh2.scripts.gcbh2 import GrandCanonicalBasinHopping
@@ -119,7 +118,7 @@ def write_lammps_input_file(model_path, atom_order):
         f.write("\n")
         f.write("#minimize\n")
         f.write("min_modify norm max\n")
-        f.write("minimize 0.0 0.3 200 100000\n")
+        f.write("minimize 0.0 0.1 1000 100000\n")
 
 
 def write_optimize_sh(model_path):
@@ -184,13 +183,11 @@ def run_bh(options):
         max_trial=50,
         weight=0.5,
     )
-    # bh_run.add_modifier(nve_n2p2, name="nve",bond_range=bond_range,  z_fix=6, N=100)
+
     bh_run.add_modifier(mirror_mutate, name="mirror", weight=2)
     bh_run.add_modifier(add_H, bond_range=bond_range, max_trial=50, weight=0.5)
-    # bh_run.add_modifier(add_h_gas, bond_range=bond_range, name="add_h2")
     bh_run.add_modifier(remove_H, name="remove_h", weight=0.5)
     n_steps = 4000
-
     bh_run.run(n_steps)
 
 
