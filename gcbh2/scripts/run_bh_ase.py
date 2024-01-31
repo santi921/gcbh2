@@ -39,8 +39,8 @@ def write_opt_file(atom_order):
         f.write("def md_mace_universal(surface, calc, T=500, timestep=1, steps=30):\n")
         f.write('    t = surface.copy()\n')
         f.write('    t.set_calculator(calc)\n')
-        f.write('    MaxwellBoltzmannDistribution(t, temperature_K=T, force_temp=True)\n')
-        f.write('    dyn = VelocityVerlet(t, timestep * units.fs)\n')
+        f.write('    dyn = MaxwellBoltzmannDistribution(t, temperature_K=T, force_temp=True)\n')
+        #f.write('    dyn = VelocityVerlet(t, timestep * units.fs)\n')
         f.write('    dyn.run(steps)\n')
         f.write('    return t\n')
 
@@ -105,8 +105,8 @@ def run_bh(options):
         "Al-C": 2.13,
         "O-H": 0.96,
     }
-    scalar_low = 0.6
-    scalar_high = 3
+    scalar_low = 0.5
+    scalar_high = 5
     bond_range = {
         frozenset(("C", "Pt")): [
             dict_bonds["C-Pt"] * scalar_low,
@@ -182,17 +182,17 @@ def run_bh(options):
     bh_run.add_modifier(
         randomize,
         name="randomize",
-        dr=1,
+        dr=1.5,
         bond_range=bond_range,
-        max_trial=50,
+        max_trial=80,
         weight=1,
         disp_list=["H", "C", "Pt"],
         disp_variance_dict={"H": 0.6, "C": 0.8, "Pt": 1.2},
     )
     # bh_run.add_modifier(nve_n2p2, name="nve",bond_range=bond_range,  z_fix=6, N=100)
     bh_run.add_modifier(mirror_mutate, name="mirror", weight=2)
-    bh_run.add_modifier(remove_H, name="remove_H", weight=0.5)
-    bh_run.add_modifier(add_H, bond_range=bond_range, max_trial=50, weight=2)
+    bh_run.add_modifier(remove_H, name="remove_H", weight=1.0)
+    bh_run.add_modifier(add_H, bond_range=bond_range, max_trial=50, weight=1.0)
     n_steps = 4000
     bh_run.run(n_steps)
 
